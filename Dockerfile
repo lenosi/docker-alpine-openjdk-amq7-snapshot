@@ -20,7 +20,7 @@ RUN apk update && apk upgrade && apk add \
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 
-# create artemis user without home dir
+# create artemis user without password and home dir
 RUN addgroup -S amq7 && adduser -s /bin/false -D -H amq7 -G amq7
 
 RUN \
@@ -30,8 +30,6 @@ RUN \
   unzip A-MQ7-$VERSION-bin.zip && \
   ln -s A-MQ7-7.0.0-SNAPSHOT A-MQ7 && \
   rm -f A-MQ7-$VERSION-bin.zip
-
-  # wget -q https://repository.jboss.org/nexus/content/groups/public/org/jboss/rh-messaging/AMQ7/A-MQ7/7.0.0-SNAPSHOT/A-MQ7-7.0.0-$VERSION--bin.zip.sha1 && \
   # Verify package @TODO
 
 # Hawtio Managment Console

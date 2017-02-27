@@ -3,23 +3,23 @@ set -e
 
 WORKDIR=$(pwd)
 
-EFFECTIVE_AMQ7_USER=${AMQ7_USER:-admin}
-EFFECTIVE_AMQ7_PASSWORD=${AMQ7_PASSWORD:-topsecret007}
-EFFECTIVE_AMQ7_ROLE=${AMQ7_ROLE:-amq}
-EFFECTIVE_AMQ7_CLUSTER_USER=${AMQ7_ROLE:-amq7Cluster}
-EFFECTIVE_AMQ7_CLUSTER_PASSWORD=${AMQ7_ROLE:-topsecret007-cluster}
+ENV_AMQ7_USER=${AMQ7_USER:-admin}
+ENV_AMQ7_PASSWORD=${AMQ7_PASSWORD:-topsecret007}
+ENV_AMQ7_ROLE=${AMQ7_ROLE:-amq}
+ENV_AMQ7_CLUSTER_USER=${AMQ7_ROLE:-amq7Cluster}
+ENV_AMQ7_CLUSTER_PASSWORD=${AMQ7_ROLE:-topsecret007-cluster}
 
 if [ ! "$(ls -A /var/lib/amq7/etc)" ]; then
 	# Create broker instance
 	cd /var/lib && \
 	  /opt/A-MQ7/bin/artemis create amq7 \
 		--home /opt/A-MQ7 \
-		--user $EFFECTIVE_AMQ7_USER \
-		--password $EFFECTIVE_AMQ7_PASSWORD \
-		--role $EFFECTIVE_AMQ7_ROLE \
+		--user $ENV_AMQ7_USER \
+		--password $ENV_AMQ7_PASSWORD \
+		--role $ENV_AMQ7_ROLE \
 		--require-login \
-		--cluster-user $EFFECTIVE_AMQ7_CLUSTER_USER \
-		--cluster-password $EFFECTIVE_AMQ7_CLUSTER_PASSWORD
+		--cluster-user $ENV_AMQ7_CLUSTER_USER \
+		--cluster-password $ENV_AMQ7_CLUSTER_PASSWORD
 
 	# Get managment accesible from the outside
   sed -ie 's/localhost:8161/0.0.0.0:8161/g' amq7/etc/bootstrap.xml
