@@ -22,24 +22,24 @@ if [ ! "$(ls -A /var/lib/amq7/etc)" ]; then
 		--cluster-password $ENV_AMQ7_CLUSTER_PASSWORD
 
 	# Get managment accesible from the outside
-  sed -ie 's/localhost:8161/0.0.0.0:8161/g' amq7/etc/bootstrap.xml
+	sed -ie 's/localhost:8161/0.0.0.0:8161/g' amq7/etc/bootstrap.xml
 
-	chown -R amq7:amq7 /var/lib/amq7
+  chown -R amq7:amq7 /var/lib/amq7
 
 	cd $WORKDIR
 fi
 
 # Log to tty to enable docker logs container-name
-sed -i "s/logger.handlers=.*/logger.handlers=CONSOLE/g" ../etc/logging.properties
+sed -ie "s/logger.handlers=.*/logger.handlers=CONSOLE/g" ../etc/logging.properties
 
 # Update min memory if the argument is passed
 if [[ "$ARTEMIS_MIN_MEMORY" ]]; then
-  sed -i "s/-Xms512M/-Xms$ARTEMIS_MIN_MEMORY/g" ../etc/artemis.profile
+  sed -ie "s/-Xms512M/-Xms$ARTEMIS_MIN_MEMORY/g" ../etc/artemis.profile
 fi
 
 # Update max memory if the argument is passed
 if [[ "$ARTEMIS_MAX_MEMORY" ]]; then
-  sed -i "s/-Xmx1024M/-Xmx$ARTEMIS_MAX_MEMORY/g" ../etc/artemis.profile
+  sed -ie "s/-Xmx1024M/-Xmx$ARTEMIS_MAX_MEMORY/g" ../etc/artemis.profile
 fi
 
 if [ "$1" = 'amq7-server' ]; then

@@ -11,7 +11,7 @@ USER root
 RUN apk update && apk upgrade && apk add \
     su-exec \
     tini \
-    openjdk8 \
+    openjdk8-jre-base \
     libaio \
     wget \
     grep \
@@ -29,7 +29,7 @@ RUN \
   wget -q https://repository.jboss.org/nexus/content/groups/public/org/jboss/rh-messaging/AMQ7/A-MQ7/7.0.0-SNAPSHOT/A-MQ7-$VERSION-bin.zip && \
   unzip A-MQ7-$VERSION-bin.zip && \
   ln -s A-MQ7-7.0.0-SNAPSHOT A-MQ7 && \
-  rm -f A-MQ7-$VERSION-bin.zip
+  rm -rf A-MQ7-$VERSION-bin.zip A-MQ7-7.0.0-SNAPSHOT/examples
   # Verify package @TODO
 
 # Hawtio Managment Console
