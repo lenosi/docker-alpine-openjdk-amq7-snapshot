@@ -4,7 +4,7 @@
 
 FROM alpine:latest
 
-MAINTAINER Dominik Lenoch <dlenoch@redhat.com>
+MAINTAINER Jiri Danek <jdanek@redhat.com>
 
 USER root
 
@@ -23,20 +23,8 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 RUN addgroup -S amq7 && adduser -s /bin/false -D -H amq7 -G amq7
 
 # Setup broker
-RUN \
-  # Set sources
-  REPO='https://repository.jboss.org/nexus/content/groups/public/org/jboss/rh-messaging/AMQ7/A-MQ7/7.0.0-SNAPSHOT/' && \
-  VERSION=$(wget -O - -o /dev/null $REPO/maven-metadata.xml | grep -oP '(?<=<value>).*?(?=</value>)' | head -1)  && \
-  mkdir /opt && cd /opt && \
-  wget -q $REPO/A-MQ7-$VERSION-bin.zip && \
-  wget -q $REPO/A-MQ7-$VERSION-bin.zip.sha1 && \
-  # Verify
-  sha1sum A-MQ7-$VERSION-bin.zip | grep $(cat A-MQ7-$VERSION-bin.zip.sha1) && \
-  # Unpack and create link
-  unzip A-MQ7-$VERSION-bin.zip && \
-  ln -s A-MQ7-7.0.0-SNAPSHOT A-MQ7 && \
-  rm -rf A-MQ7-$VERSION-bin.zip
-  # Verify package @TODO
+ADD setup_broker.sh ./
+RUN ./setup_broker.sh
 
 # Hawtio Managment Console
 EXPOSE 8161
